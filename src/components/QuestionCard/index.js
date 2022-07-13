@@ -6,7 +6,7 @@ const QuestionCard = ({q}) => {
   }
   return (
   <div>
-    {q.category}
+    {/* {q.category} */}
     {q.question}
   </div>
   )

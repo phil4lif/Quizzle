@@ -5,6 +5,7 @@ const TextInput = ({onChange, value, placeholder}) => {
   const styles = {
     input: {
       borderRadius: 12,
+      height: 24,
     }
   }
   return (

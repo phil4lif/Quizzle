@@ -4,7 +4,8 @@ import ShareModal from '../../components/ShareModal';
 import TextInput from '../../components/TextInput';
 import Timer from '../../components/Timer';
 import QuestionContext from '../../context/questionContext';
-
+import Spacer
+ from '../../components/Spacer';
 const Home = () => {
   const {qotd, error, qotdLoading, getQotd} = useContext(QuestionContext);
   const [answer, setAnswer] = useState('');
@@ -73,11 +74,13 @@ const Home = () => {
   if (qotdLoading || !qotd) return <div>Loading...</div>
   return (
     <div style={styles.container}>
-      <ShareModal isCorrect={isCorrect} score={score} answer={qotd.correctAnswer} isOpen={isOpen} onRequestClose={() => setIsOpen(false)} />
+      <ShareModal setIsOpen={setIsOpen} isCorrect={isCorrect} score={score} answer={qotd.correctAnswer} isOpen={isOpen} onRequestClose={() => setIsOpen(false)} />
       <h1>Quizzle</h1>
       <QuestionCard q={qotd}/>
       <Timer timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining}/>
+      <Spacer h={24} />
       <TextInput placeholder='Type Your Answer' value={answer} onChange={handleText} />
+      <Spacer h={24} />
       <button onClick={submitAnswer}>Submit</button>
     </div>
   )
