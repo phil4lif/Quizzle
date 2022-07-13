@@ -1,5 +1,6 @@
 import React, {useEffect, useContext, useState, useRef} from 'react';
 import QuestionCard from '../../components/QuestionCard';
+import ShareModal from '../../components/ShareModal';
 import TextInput from '../../components/TextInput';
 import Timer from '../../components/Timer';
 import QuestionContext from '../../context/questionContext';
@@ -8,9 +9,10 @@ const Home = () => {
   const {qotd, error, qotdLoading, getQotd} = useContext(QuestionContext);
   const [answer, setAnswer] = useState('');
   const [timeRemaining, setTimeRemaining] = useState(30);
-  const [isCorrect, setIsCorrect] = useState('');
+  const [isCorrect, setIsCorrect] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const timerRef = useRef(timeRemaining);
   const isAnsweredRef = useRef(isAnswered);
 
@@ -22,7 +24,6 @@ const Home = () => {
     const timerId = setInterval(() => {
       timerRef.current -= 1;
       if (isAnsweredRef.current === true) {
-        console.log('in if')
         clearInterval(timerId)
       } else if (timerRef.current < 0) {
         clearInterval(timerId)
@@ -36,7 +37,15 @@ const Home = () => {
   }, []);
 
   const checkAnswer = () => {
-    console.log('qotd.correctanswer == answer', qotd.correctAnswer === answer)
+    if (answer == qotd.correctAnswer) {
+      setIsCorrect(prevState => true)
+      setScore(timeRemaining)
+      setIsOpen(true)
+    } else {
+      setIsCorrect(prevState => false)
+      setScore(0)
+      setIsOpen(true)
+    }
   }
 
   const handleText = (e) => {
@@ -64,6 +73,7 @@ const Home = () => {
   if (qotdLoading || !qotd) return <div>Loading...</div>
   return (
     <div style={styles.container}>
+      <ShareModal isCorrect={isCorrect} score={score} answer={qotd.correctAnswer} isOpen={isOpen} onRequestClose={() => setIsOpen(false)} />
       <h1>Quizzle</h1>
       <QuestionCard q={qotd}/>
       <Timer timeRemaining={timeRemaining} setTimeRemaining={setTimeRemaining}/>
