@@ -3,10 +3,38 @@ import Modal from 'react-modal';
 import Spacer from '../Spacer';
 import {FaShareAlt} from 'react-icons/fa';
 
-const ShareModal = ({isOpen, onRequestClose, score, answer, isCorrect}) => {
+const ShareModal = ({isOpen, setIsOpen, onRequestClose, score, answer, isCorrect}) => {
+  const greenSquare = '🟩';
+  const yellowSquare = '🟨';
+  const redSquare = '🟥';
+
+  const generateSquares = () => {
+    const fifth = Math.floor(score / 5)
+    let squareStr = ''
+    for (let i = 0; i < fifth; i++) {
+      squareStr += greenSquare
+    }
+    let yellows = score > 0 ? Math.floor((30 - score) / 5) : null;
+    for (let i = 0; i < yellows; i++) {
+      squareStr += yellowSquare;
+    }
+    if (score === 0) {
+      for (let i = 0; i < 6; i++) {
+        squareStr += redSquare;
+      }
+    }
+    return squareStr
+  }
   const share = async () => {
-    await navigator.share({title: 'Quizzle', url: 'app.quizzle.dev', text: score})
-    onRequestClose()
+    let squares = generateSquares()
+    try {
+    const response = await navigator.share({title: 'Quizzle', url: 'app.quizzle.dev', text: score + squares})
+    } catch (e) {
+      console.log(squares)
+      console.log(e)
+      window.alert('Browser does not support share')
+    }
+    setIsOpen(false)
   }
 
   const styles = {
@@ -16,7 +44,15 @@ const ShareModal = ({isOpen, onRequestClose, score, answer, isCorrect}) => {
       alignItems: 'center',
     },
     shareBtn: {
-
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderStyle: 'solid',
+      padding: 8,
+      fontSize: 22,
+      width: 100,
+      fontWeight: 'bold',
+      backgroundColor: 'light-green'
     }
   }
   return (
@@ -27,8 +63,8 @@ const ShareModal = ({isOpen, onRequestClose, score, answer, isCorrect}) => {
 
       <h3>Your Score: {score}</h3>
 
-      <div onClick={share}>
-        Share
+      <div style={styles.shareBtn} onClick={share}>
+        <div>Share</div>
         <FaShareAlt />
       </div>
       </div>

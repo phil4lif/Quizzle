@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 
-const Timer = ({timeRemaining, setTimeRemaining, timerRef}) => {
+const Timer = ({timeRemaining}) => {
 
 
   const timeAsPct = (input) => {

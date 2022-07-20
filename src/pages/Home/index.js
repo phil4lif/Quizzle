@@ -4,8 +4,9 @@ import ShareModal from '../../components/ShareModal';
 import TextInput from '../../components/TextInput';
 import Timer from '../../components/Timer';
 import QuestionContext from '../../context/questionContext';
-import Spacer
- from '../../components/Spacer';
+import Spacer from '../../components/Spacer';
+import Button from '../../components/Button';
+
 const Home = () => {
   const {qotd, error, qotdLoading, getQotd} = useContext(QuestionContext);
   const [answer, setAnswer] = useState('');
@@ -81,7 +82,7 @@ const Home = () => {
       <Spacer h={24} />
       <TextInput placeholder='Type Your Answer' value={answer} onChange={handleText} />
       <Spacer h={24} />
-      <button onClick={submitAnswer}>Submit</button>
+      <Button label='Send It!' onClick={submitAnswer} />
     </div>
   )
 }

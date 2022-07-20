@@ -4,8 +4,11 @@ const TextInput = ({onChange, value, placeholder}) => {
 
   const styles = {
     input: {
-      borderRadius: 12,
       height: 24,
+      display: 'flex',
+      width: 200,
+      border: 'none',
+      borderBottom: '1px solid'
     }
   }
   return (
