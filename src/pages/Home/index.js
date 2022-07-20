@@ -39,7 +39,7 @@ const Home = () => {
   }, []);
 
   const checkAnswer = () => {
-    if (answer == qotd.correctAnswer) {
+    if (answer.toLowerCase() == qotd.correctAnswer.toLowerCase()) {
       setIsCorrect(prevState => true)
       setScore(timeRemaining)
       setIsOpen(true)
