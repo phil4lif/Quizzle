@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import Spacer from '../Spacer';
 import {FaShareAlt} from 'react-icons/fa';
-
+Modal.setAppElement('body')
 const ShareModal = ({isOpen, setIsOpen, onRequestClose, score, answer, isCorrect}) => {
   const greenSquare = '🟩';
   const yellowSquare = '🟨';
@@ -28,7 +28,7 @@ const ShareModal = ({isOpen, setIsOpen, onRequestClose, score, answer, isCorrect
   const share = async () => {
     let squares = generateSquares()
     try {
-    const response = await navigator.share({title: 'Quizzle', url: 'app.quizzle.dev', text: score + squares})
+    const response = await navigator.share({title: 'Quizzle', url: 'app.quizzle.dev', text: score + ' ' + squares})
     } catch (e) {
       console.log(squares)
       console.log(e)
