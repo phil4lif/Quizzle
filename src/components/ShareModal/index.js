@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import Spacer from '../Spacer';
+import Button from '../Button';
 import {FaShareAlt} from 'react-icons/fa';
 Modal.setAppElement('body')
 const ShareModal = ({isOpen, setIsOpen, onRequestClose, score, answer, isCorrect}) => {
@@ -62,11 +63,11 @@ const ShareModal = ({isOpen, setIsOpen, onRequestClose, score, answer, isCorrect
       <h3>{!isCorrect ? `The answer is ${answer}` : null}</h3>
 
       <h3>Your Score: {score}</h3>
-
-      <div style={styles.shareBtn} onClick={share}>
+      <Button onClick={share} label='Share'><FaShareAlt style={{float:'right', width: 20, height: 20}} /></Button>
+      {/* <div style={styles.shareBtn} onClick={share}>
         <div>Share</div>
         <FaShareAlt />
-      </div>
+      </div> */}
       </div>
     </Modal>
   )
