@@ -52,7 +52,7 @@ const ShareModal = ({isOpen, setIsOpen, onRequestClose, score, answer, isCorrect
       fontSize: 22,
       width: 100,
       fontWeight: 'bold',
-      backgroundColor: 'light-green'
+      backgroundColor: 'green'
     }
   }
   return (

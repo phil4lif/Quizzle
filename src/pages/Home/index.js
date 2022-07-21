@@ -6,6 +6,7 @@ import Timer from '../../components/Timer';
 import QuestionContext from '../../context/questionContext';
 import Spacer from '../../components/Spacer';
 import Button from '../../components/Button';
+import WelcomeModal from '../../components/WelcomeModal';
 
 const Home = () => {
   const {qotd, error, qotdLoading, getQotd} = useContext(QuestionContext);
@@ -14,12 +15,19 @@ const Home = () => {
   const [gameReady, setGameReady] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(false);
   const timerRef = useRef(timeRemaining);
   const isAnsweredRef = useRef(isAnswered);
   const isCorrect = useRef(false)
   const score = useRef(0)
 
   useEffect(() => {
+    let playedBefore = localStorage.getItem('playedBefore')
+    console.log('played Before',playedBefore)
+    if (playedBefore == null) {
+      console.log('in iff')
+      setIsWelcomeOpen(true);
+    }
     getQotd();
   },[])
 
@@ -29,10 +37,8 @@ const Home = () => {
       setGameReady(true)
     }
     if (storedId !== qotd?._id) {
-      //they have not answered todays question
       setGameReady(true)
     } else {
-      //they have already answered
       score.current = localStorage.getItem('score');
       isCorrect.current = JSON.parse(localStorage.getItem('isCorrect'));
       setAnswer(localStorage.getItem('submittedAnswer'));
@@ -41,10 +47,10 @@ const Home = () => {
       setGameReady(false)
     }
   },[qotd])
-  console.log(isCorrect.current)
+
   useEffect(() => {
     let timerId
-    if(gameReady){
+    if(gameReady && !isWelcomeOpen){
       timerId = setInterval(() => {
       timerRef.current -= 1;
       if (isAnsweredRef.current === true) {
@@ -59,23 +65,7 @@ const Home = () => {
     return () => {
       clearInterval(timerId)
     }
-  }, [gameReady]);
-
-  // const startGame = () => {
-  //   const timerId = setInterval(() => {
-  //     timerRef.current -= 1;
-  //     if (isAnsweredRef.current === true) {
-  //       clearInterval(timerId)
-  //     } else if (timerRef.current < 0) {
-  //       clearInterval(timerId)
-  //     } else {
-  //       setTimeRemaining(timerRef.current)
-  //     }
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(timerId)
-  //   }
-  // }
+  }, [gameReady, isWelcomeOpen]);
 
   const storeResult = () => {
     localStorage.setItem('lastAnsweredId', qotd._id)
@@ -123,6 +113,7 @@ const Home = () => {
   if (qotdLoading || !qotd) return <div>Loading...</div>
   return (
     <div style={styles.container}>
+      <WelcomeModal setIsOpen={setIsWelcomeOpen} isOpen={isWelcomeOpen} setGameReady={setGameReady} onRequestClose={() => setIsWelcomeOpen(false)}/>
       <ShareModal setIsOpen={setIsOpen} isCorrect={isCorrect.current} score={score.current} answer={qotd.correctAnswer} isOpen={isOpen} onRequestClose={() => setIsOpen(false)} />
       <h1>Quizzle</h1>
       <QuestionCard q={qotd}/>
