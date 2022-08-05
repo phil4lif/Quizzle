@@ -75,7 +75,7 @@ const Home = () => {
   }
 
   const checkAnswer = () => {
-    if (answer.toLowerCase() == qotd.correctAnswer.toLowerCase()) {
+    if (answer.toLowerCase().trim() == qotd.correctAnswer.toLowerCase().trim()) {
       isCorrect.current = true;
       score.current = timeRemaining;
       setIsOpen(true);
