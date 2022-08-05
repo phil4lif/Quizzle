@@ -50,7 +50,7 @@ const Home = () => {
 
   useEffect(() => {
     let timerId
-    if(gameReady && !isWelcomeOpen){
+    if(gameReady && !isWelcomeOpen && qotd){
       timerId = setInterval(() => {
       timerRef.current -= 1;
       if (isAnsweredRef.current === true) {
@@ -65,7 +65,7 @@ const Home = () => {
     return () => {
       clearInterval(timerId)
     }
-  }, [gameReady, isWelcomeOpen]);
+  }, [gameReady, isWelcomeOpen, qotd]);
 
   const storeResult = () => {
     localStorage.setItem('lastAnsweredId', qotd._id)
